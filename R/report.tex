@@ -1,0 +1,354 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={RESTORES Manusript},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{RESTORES Manusript}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{}
+    \preauthor{}\postauthor{}
+    \date{}
+    \predate{}\postdate{}
+  
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+
+\begin{document}
+\maketitle
+
+\hypertarget{table-4}{%
+\section{Table 4}\label{table-4}}
+
+\hypertarget{variables-only-applicable-to-uab-total-cholesterol-hdl-choloesterol-ldl-cholesterol-triglycerides}{%
+\subsection{Variables only applicable to UAB: Total Cholesterol, HDL
+Choloesterol, LDL Cholesterol, \&
+Triglycerides}\label{variables-only-applicable-to-uab-total-cholesterol-hdl-choloesterol-ldl-cholesterol-triglycerides}}
+
+\textbf{NOTE} The results include participants from site(s) 2
+
+\begin{table}[H]
+\centering
+\begin{tabular}{l|l|l|l}
+\hline
+\multicolumn{1}{c|}{ } & \multicolumn{3}{c}{Difference (95\% CI) from Baseline to Week 12} \\
+\cline{2-4}
+Variable & B & C & A\\
+\hline
+total\_cholesterol & -1.58 (-13.8, 10.6) & 7.75 (-5.38, 20.9) & 4.76 (-4.80, 14.3)\\
+\hline
+hdl\_cholesterol & 1.91 (-3.49, 7.32) & -3.48 (-9.29, 2.33) & -2.26 (-6.51, 1.99)\\
+\hline
+ldl\_cholesterol & -4.04 (-16.5, 8.47) & 10.8 (-2.65, 24.3) & 5.33 (-4.51, 15.2)\\
+\hline
+triglyerides & 5.99 (-13.2, 25.2) & -1.75 (-22.2, 18.7) & 13.6 (-1.49, 28.7)\\
+\hline
+\end{tabular}
+\end{table}
+
+\hypertarget{table-4-continued-i}{%
+\section{Table 4 (Continued I)}\label{table-4-continued-i}}
+
+\textbf{NOTE} The results include participants from site(s) 1 and 2
+
+\begin{table}[H]
+\centering
+\begin{tabular}{l|l|l|l}
+\hline
+\multicolumn{1}{c|}{ } & \multicolumn{3}{c}{Difference (95\% CI) from Baseline to Week 12} \\
+\cline{2-4}
+variable & B & C & A\\
+\hline
+blood\_glucose & -6.10 (-17.8, 5.64) & -0.87 (-12.4, 10.7) & 4.66 (-6.88, 16.2)\\
+\hline
+blood\_urea\_nitrogen & -0.06 (-1.88, 1.75) & -1.09 (-2.91, 0.73) & 0.58 (-1.24, 2.40)\\
+\hline
+blood\_creatinine & 0.19 (-5.71, 6.08) & 6.23 (0.95, 11.5) & 0.06 (-4.45, 4.57)\\
+\hline
+blood\_chloride & -0.22 (-1.41, 0.97) & 0.23 (-0.96, 1.42) & -0.75 (-1.94, 0.44)\\
+\hline
+blood\_co2 & 0.84 (-0.57, 2.25) & 1.62 (0.21, 3.03) & 0.84 (-0.57, 2.25)\\
+\hline
+blood\_protein & -0.19 (-0.37, 0.00) & -0.06 (-0.25, 0.12) & -0.02 (-0.20, 0.16)\\
+\hline
+blood\_albumin & 0.01 (-0.11, 0.12) & -0.01 (-0.12, 0.10) & -0.03 (-0.14, 0.08)\\
+\hline
+blood\_globulin & 0.00 (-0.13, 0.13) & -0.06 (-0.18, 0.07) & 0.01 (-0.11, 0.14)\\
+\hline
+blood\_bilirubin & 0.09 (0.02, 0.16) & -0.07 (-0.14, 0.00) & -0.01 (-0.08, 0.06)\\
+\hline
+blood\_alk\_phosph & -2.49 (-7.69, 2.71) & 2.92 (-2.12, 7.96) & 6.35 (1.31, 11.4)\\
+\hline
+blood\_ast & -1.08 (-3.39, 1.22) & 3.45 (1.22, 5.68) & -1.52 (-3.75, 0.71)\\
+\hline
+blood\_alt & -0.82 (-4.55, 2.91) & 6.33 (2.72, 9.93) & -0.90 (-4.51, 2.71)\\
+\hline
+\end{tabular}
+\end{table}
+
+\hypertarget{table-4-continued-ii}{%
+\section{Table 4 (Continued II)}\label{table-4-continued-ii}}
+
+\textbf{NOTE} The results include participants from site(s) 1 and 2
+
+\begin{table}[H]
+\centering
+\begin{tabular}{l|l|l|l}
+\hline
+\multicolumn{1}{c|}{ } & \multicolumn{3}{c}{Difference (95\% CI) from Baseline to Week 12} \\
+\cline{2-4}
+variable & B & C & A\\
+\hline
+Calcium\_\_mg & -73.5 (-265, 118) & -36.7 (-235, 162) & -71.3 (-245, 102)\\
+\hline
+Sodium\_\_mg & -143 (-836, 551) & 187 (-533, 907) & 45.6 (-583, 674)\\
+\hline
+Potassium\_\_mg & -54.2 (-668, 560) & 240 (-395, 876) & -382 (-939, 174)\\
+\hline
+\end{tabular}
+\end{table}
+
+\hypertarget{table-5}{%
+\section{Table 5}\label{table-5}}
+
+\begin{itemize}
+\tightlist
+\item
+  The results include participants from site(s) 1 and 2
+\item
+  Comparing Screening to week 12
+\end{itemize}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{l|l|l|l}
+\hline
+\multicolumn{1}{c|}{ } & \multicolumn{3}{c}{Difference (95\% CI) from Screening to Week 12} \\
+\cline{2-4}
+variable & B & C & A\\
+\hline
+bp\_sys & -6.63 (-13.6, 0.38) & -6.99 (-14.1, 0.13) & 0.39 (-6.87, 7.64)\\
+\hline
+bp\_dia & -1.72 (-5.77, 2.34) & -6.68 (-10.8, -2.56) & -2.25 (-6.44, 1.95)\\
+\hline
+bmi & -0.23 (-0.58, 0.11) & 0.01 (-0.35, 0.37) & -0.20 (-0.56, 0.16)\\
+\hline
+waist\_circumference & 6.34 (0.39, 12.3) & -0.07 (-5.94, 5.81) & 1.07 (-4.90, 7.03)\\
+\hline
+\end{tabular}
+\end{table}
+
+\hypertarget{table-5-continued}{%
+\section{Table 5 (Continued)}\label{table-5-continued}}
+
+\begin{itemize}
+\tightlist
+\item
+  The results include participants from site(s) 2
+\item
+  Comparing Screening to week 12
+\end{itemize}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{l|l|l|l}
+\hline
+\multicolumn{1}{c|}{ } & \multicolumn{3}{c}{Difference (95\% CI) from Screening to Week 12} \\
+\cline{2-4}
+variable & B & C & A\\
+\hline
+hip\_circumference & -7.71 (-14.6, -0.76) & -1.31 (-8.69, 6.07) & -7.07 (-12.5, -1.64)\\
+\hline
+\end{tabular}
+\end{table}
+
+\hypertarget{table-6}{%
+\section{Table 6}\label{table-6}}
+
+\textbf{NOTE} The results include participants from site(s) 1 and 2
+
+\begin{table}[H]
+\centering
+\begin{tabular}{l|l|l|l}
+\hline
+\multicolumn{1}{c|}{ } & \multicolumn{3}{c}{Difference (95\% CI) from Baseline to Week 12} \\
+\cline{2-4}
+variable & B & C & A\\
+\hline
+calories & 81.1 (-304, 466) & 39.0 (-361, 439) & -146 (-496, 203)\\
+\hline
+protein & -0.69 (-14.1, 12.8) & -6.59 (-20.5, 7.36) & -5.04 (-17.5, 7.37)\\
+\hline
+cho & -1.16 (-54.3, 52.0) & 25.2 (-29.9, 80.3) & -14.9 (-63.1, 33.3)\\
+\hline
+fat & 10.4 (-9.42, 30.2) & 9.25 (-11.2, 29.7) & -12.6 (-30.5, 5.36)\\
+\hline
+vit\_c & -19.9 (-40.1, 0.24) & -21.4 (-42.2, -0.58) & -9.50 (-27.7, 8.73)\\
+\hline
+\end{tabular}
+\end{table}
+
+\hypertarget{table-7}{%
+\section{Table 7}\label{table-7}}
+
+\textbf{NOTE} The results include participants from site(s) 1 and 2
+
+\begin{table}[H]
+\centering
+\begin{tabular}{l|l|l|l}
+\hline
+\multicolumn{1}{c|}{ } & \multicolumn{3}{c}{Difference (95\% CI) from Baseline to Week 12} \\
+\cline{2-4}
+variable & B & C & A\\
+\hline
+avg\_step\_counts & -676 (-1,165, -187) & -312 (-787, 164) & -249 (-738, 241)\\
+\hline
+sedentary\_daily & -27.3 (-80.0, 25.5) & -7.80 (-59.2, 43.6) & -26.9 (-79.8, 26.1)\\
+\hline
+light\_daily & -11.6 (-22.8, -0.30) & 3.71 (-7.26, 14.7) & -3.49 (-14.8, 7.80)\\
+\hline
+moderate\_daily & -2.54 (-5.49, 0.40) & -1.60 (-4.47, 1.27) & -1.42 (-4.38, 1.54)\\
+\hline
+vigorous\_daily & -0.10 (-0.26, 0.07) & -0.08 (-0.24, 0.08) & -0.01 (-0.17, 0.16)\\
+\hline
+very\_vigorous\_daily & 0.01 (-0.04, 0.05) & -0.03 (-0.07, 0.02) & 0.00 (-0.04, 0.05)\\
+\hline
+active\_time\_daily & -14.2 (-27.3, -1.14) & 1.91 (-10.8, 14.6) & -4.72 (-17.8, 8.38)\\
+\hline
+avg\_wear\_time\_minutes & -41.9 (-98.3, 14.5) & -2.45 (-59.0, 54.1) & -28.6 (-85.3, 28.1)\\
+\hline
+\end{tabular}
+\end{table}
+
+\hypertarget{supplementary-table-2}{%
+\section{Supplementary Table 2}\label{supplementary-table-2}}
+
+\textbf{NOTE} The results include participants from site(s) 1 and 2
+
+\begin{table}[H]
+\centering
+\begin{tabular}{l|l|l|l}
+\hline
+\multicolumn{1}{c|}{ } & \multicolumn{3}{c}{Difference (95\% CI) from Baseline to Week 12} \\
+\cline{2-4}
+variable & B & C & A\\
+\hline
+tot\_met\_walked & 9.34 (-9.02, 27.7) & 22.9 (4.18, 41.6) & 33.1 (13.8, 52.4)\\
+\hline
+sppb\_total & 0.38 (-0.17, 0.93) & 0.25 (-0.30, 0.80) & 0.13 (-0.42, 0.69)\\
+\hline
+mean\_pt\_knee\_ext & -3.24 (-9.70, 3.23) & 10.5 (4.28, 16.7) & 6.15 (-0.31, 12.6)\\
+\hline
+llfdi\_ftot\_scale & 1.41 (-1.52, 4.35) & 1.58 (-1.40, 4.56) & 2.59 (-0.44, 5.62)\\
+\hline
+llfdi\_ltot\_scale & 4.77 (0.06, 9.49) & 5.72 (0.93, 10.5) & 3.36 (-1.50, 8.22)\\
+\hline
+\end{tabular}
+\end{table}
+
+\hypertarget{supplementary-table-3}{%
+\section{Supplementary Table 3}\label{supplementary-table-3}}
+
+\textbf{NOTE} The results include participants from site(s) 2
+
+\begin{table}[H]
+\centering
+\begin{tabular}{l|l|l|l}
+\hline
+\multicolumn{1}{c|}{ } & \multicolumn{3}{c}{Difference (95\% CI) from Baseline to Week 12} \\
+\cline{2-4}
+variable & A & B & C\\
+\hline
+leg\_press & 45.6 (20.5, 70.8) & 21.4 (-7.88, 50.7) & 54.3 (22.9, 85.6)\\
+\hline
+chest\_press & 3.93 (-4.13, 12.0) & 5.75 (-3.68, 15.2) & 2.65 (-7.45, 12.7)\\
+\hline
+knee\_extension & 8.19 (-17.0, 33.4) & 12.3 (-17.3, 41.9) & 27.7 (-3.73, 59.1)\\
+\hline
+\end{tabular}
+\end{table}
+
+
+\end{document}

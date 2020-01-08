@@ -1,0 +1,632 @@
+---
+title: "RESTORES Manusript"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+
+```{r, message=FALSE, echo = FALSE, warning=FALSE}
+
+## Clear Workspace ##
+rm(list = ls())
+
+## Load Libraries ##
+library(tidyverse)
+library(tibbleOne)
+library(magrittr)
+library(labelled)
+library(knitr)
+library(kableExtra)
+library(readxl)
+library(qwraps2)
+library(lme4)
+library(emmeans)
+library(glue)
+
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+
+sites_to_include <- c(2)
+
+restores_inclusion <- read_xlsx('data/RESTORES Randomized.xlsx')
+
+# ids_to_include <- restores_inclusion %>% 
+#   filter(withdrew == 'NO') %>% 
+#   pull(patient_id)
+
+## Load Analysis Data Sets ##
+
+.proc_restores <- function(data){
+  
+  # setting visit as a factor
+  mutate(
+    data,
+    visit = factor(
+      visit, 
+      levels = 1:3, 
+      labels = c("Baseline", "Week 6", "Week 12")
+    ), 
+    pt_group = factor(
+      pt_group,
+      levels = c("B", "C", "A")
+    )
+  ) %>% 
+  arrange(patient_id, visit) %>% 
+  group_by(patient_id) 
+  
+}
+
+restores_1 <- read_xlsx("data/RESTORES 1.xlsx") %>% 
+  filter(
+    visit > 0, 
+    # patient_id %in% ids_to_include,
+    site %in% sites_to_include
+  ) %>% 
+  .proc_restores()
+  
+
+# create one column for each variable in
+# make_bl_vals that contains baseline value
+make_bl_vals <- names(restores_1)[-c(1:10)]
+
+restores_1 <- restores_1 %>% 
+  mutate_at(make_bl_vals, .funs = list(at_bl = function(x) x[1]))
+
+```
+
+# Table 4 
+## Variables only applicable to UAB: Total Cholesterol, HDL Choloesterol, LDL Cholesterol, & Triglycerides
+
+**NOTE** The results include participants from site(s) `r glue_collapse(sites_to_include, sep = ' and ' )`
+
+```{r}
+
+outcomes <- c(
+  "total_cholesterol",
+    "hdl_cholesterol",
+    "ldl_cholesterol",
+    "triglyerides"
+)
+
+source("R/within_group_diffs.R")
+
+outcomes %>% 
+  purrr::set_names() %>% 
+  map_dfr(
+    .f = ~ within_group_diffs_by_visit(
+      data = restores_1, 
+      outcome = .x
+    ),
+    .id = 'variable'
+  ) %>% 
+  select(-starts_with("vis")) %>% 
+  rename(Variable = variable) %>% 
+  kable() %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::add_header_above(
+    header = c(' ' = 1, "Difference (95% CI) from Baseline to Week 12" = 3)
+  )
+
+
+```
+
+
+```{r}
+
+sites_to_include <- c(1,2)
+
+## Load Analysis Data Sets ##
+
+restores_1 <- read_xlsx("data/RESTORES 1.xlsx") %>% 
+  filter(
+    visit > 0, 
+    # patient_id %in% ids_to_include,
+    site %in% sites_to_include
+  ) %>% 
+  .proc_restores() 
+
+# create one column for each variable in
+# make_bl_vals that contains baseline value
+make_bl_vals <- names(restores_1)[-c(1:10)]
+
+restores_1 <- restores_1 %>% 
+  mutate_at(make_bl_vals, .funs = list(at_bl = function(x) x[1]))
+
+```
+
+# Table 4 (Continued I)
+
+**NOTE** The results include participants from site(s) `r glue_collapse(sites_to_include, sep = ' and ' )`
+
+```{r}
+
+outcomes <-
+  c(
+    "blood_glucose",
+    "blood_urea_nitrogen",
+    "blood_creatinine",
+    "blood_chloride",
+    "blood_co2",
+    "Calcium__mg_",
+    "blood_protein",
+    "blood_albumin",
+    "blood_globulin",
+    "blood_bilirubin",
+    "blood_alk_phosph",
+    "blood_ast",
+    "blood_alt"
+  )
+
+outcomes %>% 
+  purrr::set_names() %>% 
+  map_dfr(
+    .f = ~ within_group_diffs_by_visit(
+      data = restores_1, 
+      outcome = .x
+    ),
+    .id = 'variable'
+  ) %>% 
+  select(-starts_with("vis")) %>% 
+  kable() %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::add_header_above(
+    header = c(' ' = 1, "Difference (95% CI) from Baseline to Week 12" = 3)
+  )
+
+```
+
+
+```{r}
+
+sites_to_include <- c(1,2)
+
+## Load Analysis Data Sets ##
+
+restores_1 <- read_xlsx("data/RESTORES 1.xlsx") %>%
+  select(
+    patient_id,
+    age,
+    gender
+  ) %>%
+  group_by(patient_id) %>%
+  filter(row_number()==1)
+
+restores_2 <- read_csv("data/RESTORES 2.csv") %>% 
+  filter(
+    visit > 0, 
+    # patient_id %in% ids_to_include,
+    site %in% sites_to_include
+  ) %>% 
+  # setting visit as a factor
+  .proc_restores() %>% 
+  left_join(restores_1, by = 'patient_id')
+
+# create one column for each variable in
+# make_bl_vals that contains baseline value
+make_bl_vals <- names(restores_2)[-c(1:10)]
+
+restores_2 <- restores_2 %>% 
+  mutate_at(make_bl_vals, .funs = list(at_bl = function(x) x[1]))
+
+```
+
+
+# Table 4 (Continued II)
+
+**NOTE** The results include participants from site(s) `r glue_collapse(sites_to_include, sep = ' and ' )`
+
+```{r}
+
+outcomes <- c("Calcium__mg", "Sodium__mg", "Potassium__mg")
+
+outcomes %>% 
+  purrr::set_names() %>% 
+  map_dfr(
+    .f = ~ within_group_diffs_by_visit(
+      data = restores_2, 
+      outcome = .x
+    ),
+    .id = 'variable'
+  ) %>% 
+  select(-starts_with("vis")) %>% 
+  kable() %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::add_header_above(
+    header = c(' ' = 1, "Difference (95% CI) from Baseline to Week 12" = 3)
+  )
+
+```
+
+
+```{r}
+
+sites_to_include <- c(1,2)
+
+## Load Analysis Data Sets ##
+
+restores_1 <- read_xlsx("data/RESTORES 1.xlsx") %>% 
+  filter(
+    # patient_id %in% ids_to_include,
+    site %in% sites_to_include
+  ) %>% 
+  # setting visit as a factor
+  mutate(
+    visit = factor(
+      visit, 
+      levels = 0:3, 
+      labels = c("Screening","Baseline", "Week 6", "Week 12")
+    ), 
+    pt_group = factor(
+      pt_group,
+      levels = c("B", "C", "A")
+    )
+  ) %>% 
+  arrange(patient_id, visit) %>% 
+  group_by(patient_id) 
+
+# create one column for each variable in
+# make_bl_vals that contains baseline value
+make_bl_vals <- names(restores_1)[-c(1:10)]
+
+restores_1 <- restores_1 %>% 
+  mutate_at(make_bl_vals, .funs = list(at_bl = function(x) x[1]))
+
+```
+
+# Table 5
+
+- The results include participants from site(s) `r glue_collapse(sites_to_include, sep = ' and ' )`
+- Comparing Screening to week 12
+
+```{r}
+
+outcomes <- c("bp_sys", "bp_dia", "bmi", "waist_circumference")
+
+outcomes %>% 
+  purrr::set_names() %>% 
+  map_dfr(
+    .f = ~ within_group_diffs_by_visit_screening(
+      data = restores_1, 
+      outcome = .x
+    ),
+    .id = 'variable'
+  ) %>% 
+  select(-starts_with("vis")) %>% 
+  kable() %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::add_header_above(
+    header = c(' ' = 1, "Difference (95% CI) from Screening to Week 12" = 3)
+  )
+
+```
+
+```{r}
+
+sites_to_include <- c(2)
+
+## Load Analysis Data Sets ##
+
+restores_1 <- read_xlsx("data/RESTORES 1.xlsx") %>% 
+  filter(
+    # patient_id %in% ids_to_include,
+    site %in% sites_to_include
+  ) %>% 
+  # setting visit as a factor
+  mutate(
+    visit = factor(
+      visit, 
+      levels = 0:3, 
+      labels = c("Screening","Baseline", "Week 6", "Week 12")
+    ), 
+    pt_group = factor(
+      pt_group,
+      levels = c("B", "C", "A")
+    )
+  ) %>% 
+  arrange(patient_id, visit) %>% 
+  group_by(patient_id) 
+
+# create one column for each variable in
+# make_bl_vals that contains baseline value
+make_bl_vals <- names(restores_1)[-c(1:10)]
+
+restores_1 <- restores_1 %>% 
+  mutate_at(make_bl_vals, .funs = list(at_bl = function(x) x[1]))
+
+```
+
+
+# Table 5 (Continued)
+
+- The results include participants from site(s) `r glue_collapse(sites_to_include, sep = ' and ' )`
+- Comparing Screening to week 12
+
+```{r}
+
+outcomes <- c("hip_circumference")
+
+outcomes %>% 
+  purrr::set_names() %>% 
+  map_dfr(
+    .f = ~ within_group_diffs_by_visit_screening(
+      data = restores_1, 
+      outcome = .x
+    ),
+    .id = 'variable'
+  ) %>% 
+  select(-starts_with("vis")) %>% 
+  kable() %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::add_header_above(
+    header = c(' ' = 1, "Difference (95% CI) from Screening to Week 12" = 3)
+  )
+
+```
+
+
+```{r}
+
+sites_to_include <- c(1,2)
+
+## Load Analysis Data Sets ##
+
+restores_1 <- read_xlsx("data/RESTORES 1.xlsx") %>%
+  select(
+    patient_id,
+    age,
+    gender
+  ) %>%
+  group_by(patient_id) %>%
+  filter(row_number()==1)
+
+restores_2 <- read_csv("data/RESTORES 2.csv") %>% 
+  filter(
+    visit > 0, 
+    # patient_id %in% ids_to_include,
+    site %in% sites_to_include
+  ) %>% 
+  # setting visit as a factor
+  .proc_restores() %>% 
+  left_join(restores_1, by = 'patient_id')
+
+# create one column for each variable in
+# make_bl_vals that contains baseline value
+make_bl_vals <- names(restores_2)[-c(1:5)]
+
+restores_2 <- restores_2 %>% 
+  mutate_at(make_bl_vals, .funs = list(at_bl = function(x) x[1]))
+
+```
+
+
+# Table 6
+
+**NOTE** The results include participants from site(s) `r glue_collapse(sites_to_include, sep = ' and ' )`
+
+```{r}
+
+outcomes <- c("calories",	"protein",	"cho",	"fat",	"vit_c")
+
+outcomes %>% 
+  purrr::set_names() %>% 
+  map_dfr(
+    .f = ~ within_group_diffs_by_visit(
+      data = restores_2, 
+      outcome = .x
+    ),
+    .id = 'variable'
+  ) %>% 
+  select(-starts_with("vis")) %>% 
+  kable() %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::add_header_above(
+    header = c(' ' = 1, "Difference (95% CI) from Baseline to Week 12" = 3)
+  )
+
+```
+
+
+```{r}
+
+sites_to_include <- c(1,2)
+
+## Load Analysis Data Sets ##
+
+restores_1 <- read_xlsx("data/RESTORES 1.xlsx") %>%
+  select(
+    patient_id,
+    age,
+    gender
+  ) %>%
+  group_by(patient_id) %>%
+  filter(row_number()==1)
+
+restores_3 <- read_xlsx("data/RESTORES 3.xlsx") %>% 
+  filter(
+    visit > 0, 
+    # patient_id %in% ids_to_include,
+    site %in% sites_to_include
+  ) %>% 
+  # setting visit as a factor
+  .proc_restores() %>% 
+  left_join(restores_1, by = 'patient_id')
+
+# create one column for each variable in
+# make_bl_vals that contains baseline value
+make_bl_vals <- names(restores_3)[-c(1:5)]
+
+restores_3 <- restores_3 %>% 
+  mutate_at(make_bl_vals, .funs = list(at_bl = function(x) x[1]))
+
+```
+
+
+# Table 7
+
+**NOTE** The results include participants from site(s) `r glue_collapse(sites_to_include, sep = ' and ' )`
+
+```{r}
+
+outcomes <- c(
+    "avg_step_counts",
+    "sedentary_daily",
+    "light_daily",
+    "moderate_daily",
+    "vigorous_daily",
+    "very_vigorous_daily",
+    "active_time_daily",
+    "avg_wear_time_minutes"
+  )
+
+outcomes %>% 
+  purrr::set_names() %>% 
+  map_dfr(
+    .f = ~ within_group_diffs_by_visit(
+      data = restores_3, 
+      outcome = .x
+    ),
+    .id = 'variable'
+  ) %>% 
+  select(-starts_with("vis")) %>% 
+  kable() %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::add_header_above(
+    header = c(' ' = 1, "Difference (95% CI) from Baseline to Week 12" = 3)
+  )
+
+```
+
+
+
+```{r}
+
+sites_to_include <- c(1,2)
+
+## Load Analysis Data Sets ##
+
+restores_1 <- read_xlsx("data/RESTORES 1.xlsx") %>% 
+  filter(
+    visit > 0, 
+    # patient_id %in% ids_to_include,
+    site %in% sites_to_include
+  ) %>% 
+  # setting visit as a factor
+  .proc_restores() 
+
+# create one column for each variable in
+# make_bl_vals that contains baseline value
+make_bl_vals <- names(restores_1)[-c(1:5)]
+
+restores_1 <- restores_1 %>% 
+  mutate_at(make_bl_vals, .funs = list(at_bl = function(x) x[1]))
+
+```
+
+# Supplementary Table 2
+
+**NOTE** The results include participants from site(s) `r glue_collapse(sites_to_include, sep = ' and ' )`
+
+```{r}
+
+outcomes <- c(
+    "tot_met_walked",
+    "sppb_total",
+    "mean_pt_knee_ext",
+    "llfdi_ftot_scale",
+    "llfdi_ltot_scale"
+  )
+
+outcomes %>% 
+  purrr::set_names() %>% 
+  map_dfr(
+    .f = ~ within_group_diffs_by_visit(
+      data = restores_1, 
+      outcome = .x
+    ),
+    .id = 'variable'
+  ) %>% 
+  select(-starts_with("vis")) %>% 
+  kable() %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::add_header_above(
+    header = c(' ' = 1, "Difference (95% CI) from Baseline to Week 12" = 3)
+  )
+
+```
+
+
+
+
+```{r}
+
+sites_to_include <- c(2)
+
+## Load Analysis Data Sets ##
+restores_1 <- read_xlsx("data/RESTORES 1.xlsx") %>%
+  select(
+    patient_id,
+    age,
+    gender
+  ) %>%
+  group_by(patient_id) %>%
+  filter(row_number()==1)
+
+restores_2 <- read_xlsx("data/RESTORES 2.2.xlsx") %>% 
+  filter(
+    visit > 0, 
+    # patient_id %in% ids_to_include,
+    site %in% sites_to_include
+  ) %>% 
+  # setting visit as a factor
+  mutate(
+    visit = factor(
+      visit, 
+      levels = 1:3, 
+      labels = c("Baseline", "Week 6", "Week 12")
+    )
+  ) %>% 
+  arrange(patient_id, visit) %>% 
+  group_by(patient_id) %>% 
+  left_join(restores_1, by = 'patient_id')
+
+# create one column for each variable in
+# make_bl_vals that contains baseline value
+make_bl_vals <- names(restores_2)[-c(1:5)]
+
+restores_2 <- restores_2 %>% 
+  mutate_at(make_bl_vals, .funs = list(at_bl = function(x) x[1]))
+```
+
+# Supplementary Table 3
+
+**NOTE** The results include participants from site(s) `r glue_collapse(sites_to_include, sep = ' and ' )`
+
+```{r}
+
+outcomes <- c("leg_press", "chest_press", "knee_extension")
+
+outcomes %>% 
+  purrr::set_names() %>% 
+  map_dfr(
+    .f = ~ within_group_diffs_by_visit(
+      data = restores_2, 
+      outcome = .x
+    ),
+    .id = 'variable'
+  ) %>% 
+  select(-starts_with("vis")) %>% 
+  kable() %>% 
+  kableExtra::kable_styling() %>% 
+  kableExtra::add_header_above(
+    header = c(' ' = 1, "Difference (95% CI) from Baseline to Week 12" = 3)
+  )
+
+```
+
+
+
+
